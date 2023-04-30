@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^4.0.4
+  flutter_svg: ^2.0.5
+  image_picker: ^0.8.7+4
 
 dev_dependencies:
   flutter_test:
