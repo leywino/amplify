@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import '../widgets/text_field_widget.dart';
 
 class ScreenLogin extends StatelessWidget {
-  const ScreenLogin({super.key});
-
+  ScreenLogin({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -52,11 +53,13 @@ class ScreenLogin extends StatelessWidget {
                 // ),
                 // Third child - Email and Password text fields
                 TextFieldWidget(
+                  textController: emailController,
                   size: size,
-                  fieldName: "Email or Phone",
+                  fieldName: "Email",
                   colorValue: Colors.white,
                 ),
                 TextFieldWidget(
+                  textController: passwordController,
                   size: size,
                   fieldName: "Password",
                   hideField: true,
