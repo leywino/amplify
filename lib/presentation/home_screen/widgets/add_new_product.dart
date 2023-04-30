@@ -10,6 +10,13 @@ class AddNewProductScreen extends StatelessWidget {
   AddNewProductScreen({super.key});
 
   final ValueNotifier<String> imagePathNotifer = ValueNotifier("");
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController brandController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController longDescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +33,9 @@ class AddNewProductScreen extends StatelessWidget {
             leading: IconButton(
                 onPressed: () => Navigator.pop(context),
                 icon: SvgPicture.asset("assets/back.svg")),
-            title: Text(
+            title: const Text(
               "Product Details",
-              style: const TextStyle(
+              style: TextStyle(
                 color: kTextBlackColor,
                 fontWeight: FontWeight.bold,
               ),
@@ -65,7 +72,7 @@ class AddNewProductScreen extends StatelessWidget {
                                       ),
                                       color: Colors.white,
                                     ),
-                                    child: Center(
+                                    child: const Center(
                                       child: Text(
                                         'Pick Image',
                                         style: TextStyle(
@@ -85,45 +92,52 @@ class AddNewProductScreen extends StatelessWidget {
                 DetailsTextFieldWidget(
                   size: size,
                   fieldName: "Product Name",
-                  // controllerText: _dummyProductDetails[0],
+                  textController: nameController,
+                  // textString: _dummyProductDetails[0],
                   // enableTextField: false,
                 ),
                 DetailsTextFieldWidget(
                   size: size,
                   fieldName: "Brand",
+                  textController: brandController,
                   // enableTextField: !editOrUpdate,
-                  // controllerText: _dummyProductDetails[1],
+                  // textString: _dummyProductDetails[1],
                 ),
                 DetailsTextFieldWidget(
                   size: size,
                   fieldName: "Category",
+                  textController: categoryController,
                   // enableTextField: !editOrUpdate,
-                  // controllerText: _dummyProductDetails[2],
+                  // textString: _dummyProductDetails[2],
                 ),
                 DetailsTextFieldWidget(
                   size: size,
                   fieldName: "Quantity",
+                  textController: quantityController,
                   // enableTextField: !editOrUpdate,
-                  // controllerText: _dummyProductDetails[3],
+                  // textString: _dummyProductDetails[3],
                 ),
                 DetailsTextFieldWidget(
                   size: size,
                   fieldName: "Price",
+                  textController: priceController,
                   // enableTextField: !editOrUpdate,
-                  // controllerText: _dummyProductDetails[4],
+                  // textString: _dummyProductDetails[4],
                 ),
                 DetailsTextFieldWidget(
                   size: size,
                   fieldName: "Description",
+                  textController: descriptionController,
                   // enableTextField: !editOrUpdate,
-                  // controllerText: _dummyProductDetails[5],
+                  // textString: _dummyProductDetails[5],
                   height: 100,
                   maxLines: 2,
                 ),
                 DetailsTextFieldWidget(
                   size: size,
                   fieldName: "Long Description",
-                  // controllerText: _dummyProductDetails[6],
+                  textController: longDescriptionController,
+                  // textString: _dummyProductDetails[6],
                   // enableTextField: !editOrUpdate,
                   height: 130,
                   maxLines: 4,
@@ -153,7 +167,7 @@ class AddNewProductScreen extends StatelessWidget {
                     EdgeInsets.symmetric(
                         horizontal: size.width * 0.32, vertical: 20)),
               ),
-              child: Text(
+              child: const Text(
                 'Save',
                 style: TextStyle(
                   color: Colors.white,

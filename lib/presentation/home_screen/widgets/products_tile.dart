@@ -43,8 +43,8 @@ class ProductsTiles extends StatelessWidget {
               builder: (context) => ProductDetailsScreen(),
             )),
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             color: Colors.grey[300],
             borderRadius: BorderRadius.circular(20),
@@ -55,7 +55,7 @@ class ProductsTiles extends StatelessWidget {
               Container(
                 width: 50,
                 height: 50,
-                margin: EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(right: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
@@ -67,7 +67,7 @@ class ProductsTiles extends StatelessWidget {
               Expanded(
                 child: Text(
                   _dummyProductTitles[index],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
@@ -75,7 +75,7 @@ class ProductsTiles extends StatelessWidget {
               ),
               Text(
                 _dummyProductQuantity[index],
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),

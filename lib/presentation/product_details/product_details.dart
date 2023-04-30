@@ -1,16 +1,20 @@
-import 'dart:io';
 
 import 'package:amplify/core/colors.dart';
 import 'package:amplify/presentation/product_details/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   ProductDetailsScreen({super.key});
 
   final ValueNotifier<bool> editNotifier = ValueNotifier(true);
-  
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController brandController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController longDescriptionController = TextEditingController();
 
   final _dummyProductDetails = [
     "HE400se",
@@ -37,9 +41,9 @@ class ProductDetailsScreen extends StatelessWidget {
             leading: IconButton(
                 onPressed: () => Navigator.pop(context),
                 icon: SvgPicture.asset("assets/back.svg")),
-            title: Text(
+            title: const Text(
               "Product Details",
-              style: const TextStyle(
+              style: TextStyle(
                 color: kTextBlackColor,
                 fontWeight: FontWeight.bold,
               ),
@@ -54,51 +58,57 @@ class ProductDetailsScreen extends StatelessWidget {
                     child: SizedBox(
                         width: size.width * 0.7,
                         child: Image.network(
-                                "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-HiFiMAN-HE400se-1160-1160-7.jpg?v=1614245064&width=800")
-                       ),
+                            "https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-HiFiMAN-HE400se-1160-1160-7.jpg?v=1614245064&width=800")),
                   ),
                   DetailsTextFieldWidget(
                     size: size,
                     fieldName: "Product Name",
-                    controllerText: _dummyProductDetails[0],
+                    textString: _dummyProductDetails[0],textController: nameController,
+               
                     // enableTextField: false,
                   ),
                   DetailsTextFieldWidget(
                     size: size,
                     fieldName: "Brand",
                     enableTextField: !editOrUpdate,
-                    controllerText: _dummyProductDetails[1],
+                    textString: _dummyProductDetails[1],
+                  textController: brandController,
                   ),
                   DetailsTextFieldWidget(
                     size: size,
                     fieldName: "Category",
                     enableTextField: !editOrUpdate,
-                    controllerText: _dummyProductDetails[2],
+                    textString: _dummyProductDetails[2],
+                    textController: categoryController,
                   ),
                   DetailsTextFieldWidget(
                     size: size,
                     fieldName: "Quantity",
                     enableTextField: !editOrUpdate,
-                    controllerText: _dummyProductDetails[3],
+                    textString: _dummyProductDetails[3],
+                   textController: quantityController,
                   ),
                   DetailsTextFieldWidget(
                     size: size,
                     fieldName: "Price",
                     enableTextField: !editOrUpdate,
-                    controllerText: _dummyProductDetails[4],
+                    textString: _dummyProductDetails[4],
+                    textController: priceController,
                   ),
                   DetailsTextFieldWidget(
                     size: size,
                     fieldName: "Description",
                     enableTextField: !editOrUpdate,
-                    controllerText: _dummyProductDetails[5],
+                    textString: _dummyProductDetails[5],
+                   textController: descriptionController,
                     height: 100,
                     maxLines: 2,
                   ),
                   DetailsTextFieldWidget(
                     size: size,
                     fieldName: "Long Description",
-                    controllerText: _dummyProductDetails[6],
+                    textString: _dummyProductDetails[6],
+                    textController: longDescriptionController,
                     enableTextField: !editOrUpdate,
                     height: 130,
                     maxLines: 4,
@@ -135,7 +145,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 valueListenable: editNotifier,
                 builder: (context, editOrUpdate, child) => Text(
                   editOrUpdate ? '   Edit   ' : 'Update',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                   ),

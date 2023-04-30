@@ -27,11 +27,11 @@ class ScreenHome extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     radius: 20,
+                    backgroundColor: Colors.grey,
                     child: SvgPicture.asset(
                       "assets/person.svg",
                       height: 20,
                     ),
-                    backgroundColor: Colors.grey,
                   ),
                 ),
               ],

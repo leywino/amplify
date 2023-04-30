@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 
+
 class DetailsTextFieldWidget extends StatelessWidget {
-  const DetailsTextFieldWidget(
-      {super.key,
-      required this.size,
-      required this.fieldName,
-      this.hideField = false,
-      this.numPad = false,
-      this.colorValue = Colors.white,
-      this.enableTextField = true,
-      this.height,
-      this.maxLines = 1,
-      this.controllerText});
+  const DetailsTextFieldWidget({
+    super.key,
+    required this.size,
+    required this.fieldName,
+    this.hideField = false,
+    this.numPad = false,
+    this.colorValue = Colors.white,
+    this.enableTextField = true,
+    this.height,
+    this.maxLines = 1,
+    this.textString, required this.textController,
+  });
 
   final Size size;
   final String fieldName;
-  final String? controllerText;
+  final String? textString;
   final bool hideField;
   final bool numPad;
   final bool enableTextField;
   final Color colorValue;
   final double? height;
   final int maxLines;
+  final TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController textController = TextEditingController();
-    textController.text = controllerText ?? "";
+    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      textController.text = textString ?? "";
+    });
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
       child: Container(
