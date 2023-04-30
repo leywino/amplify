@@ -1,4 +1,3 @@
-import 'package:amplify/core/colors.dart';
 import 'package:amplify/presentation/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +11,9 @@ class ScreenLogin extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 235, 235, 235),
+        backgroundColor: const Color.fromARGB(255, 235, 235, 235),
         body: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: SizedBox(
             height: size.height,
             child: Column(
@@ -36,7 +35,7 @@ class ScreenLogin extends StatelessWidget {
                   padding: EdgeInsets.only(top: size.height * 0.1),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Text(
                         'Login',
                         style: TextStyle(

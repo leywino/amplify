@@ -1,3 +1,4 @@
+import 'package:amplify/presentation/order_details/order_details.dart';
 import 'package:flutter/material.dart';
 
 class OrdersTiles extends StatelessWidget {
@@ -26,35 +27,40 @@ class OrdersTiles extends StatelessWidget {
     return Column(
       children: List.generate(
         5,
-        (index) => Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-            
-                Expanded(
-                  child: Text(
-                    _dummyOrdersTitles[index],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+        (index) => GestureDetector(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const OrderDetails(),
+              )),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      _dummyOrdersTitles[index],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                ),
-
-                Text(
-                  _dummyOrdersStatus[index],
-                  style: TextStyle(
-                    fontSize: 16,
+                  Text(
+                    _dummyOrdersStatus[index],
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
