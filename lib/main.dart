@@ -1,4 +1,4 @@
-import 'package:amplify/presentation/home_screen/home_screen.dart';
+import 'package:amplify/presentation/widgets/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: const ScreenHome(),
+      home: const ScreenSplash(),
     );
   }
 }
