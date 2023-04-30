@@ -48,8 +48,8 @@ class OrderDetails extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 50, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 8.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -86,8 +86,8 @@ class OrderDetails extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 50, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 8.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -98,7 +98,7 @@ class OrderDetails extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Text(
-                              'This is an example text that should span at least three lines when displayed. It is wrapped in a Container widget with rounded corners and grey background color. The text is also wrapped in a Padding widget for extra spacing.',
+                              'Flat No. 302, Malabar Residency,Thiruvananthapuram, Kerala, Pincode: 695014, India',
                               style: TextStyle(fontSize: 18),
                               maxLines: 7,
                               overflow: TextOverflow.ellipsis,
@@ -202,8 +202,8 @@ class OrderDetails extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 50, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 8.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -226,6 +226,9 @@ class OrderDetails extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(
+                height: size.height * 0.1,
+              )
             ],
           ),
         ),
