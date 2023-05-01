@@ -8,7 +8,7 @@ class ScreenSplash extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(
       const Duration(milliseconds: 1500),
-      () => Navigator.push(
+      () => Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => ScreenLogin())),
     );
     return SafeArea(

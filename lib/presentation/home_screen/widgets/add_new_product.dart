@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:amplify/core/colors.dart';
+import 'package:amplify/firebase/functions.dart';
+import 'package:amplify/firebase/product_model.dart';
 import 'package:amplify/presentation/product_details/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,7 +18,8 @@ class AddNewProductScreen extends StatelessWidget {
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController longDescriptionController = TextEditingController();
+  final TextEditingController longDescriptionController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -152,30 +155,47 @@ class AddNewProductScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 15),
           child: Align(
-            alignment: Alignment.bottomCenter,
-            child: TextButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    side: const BorderSide(color: Colors.black),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.symmetric(
-                        horizontal: size.width * 0.32, vertical: 20)),
-              ),
-              child: const Text(
-                'Save',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
+              alignment: Alignment.bottomCenter,
+              child: ValueListenableBuilder(
+                valueListenable: imagePathNotifer,
+                builder: (context, imagePath, child) {
+                  return TextButton(
+                    onPressed: () {
+                      addProduct(
+                        Products(
+                            brand: brandController.text,
+                            category: categoryController.text,
+                            quantity: int.parse(quantityController.text),
+                            price: int.parse(priceController.text),
+                            description: descriptionController.text,
+                            longDescription: longDescriptionController.text,
+                            imageString: imagePath,
+                            productName: nameController.text),
+                      );
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          side: const BorderSide(color: Colors.black),
+                        ),
+                      ),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black),
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          EdgeInsets.symmetric(
+                              horizontal: size.width * 0.32, vertical: 20)),
+                    ),
+                    child: const Text(
+                      'Save',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  );
+                },
+              )),
         ),
       ],
     );

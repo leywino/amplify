@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DetailsTextFieldWidget extends StatelessWidget {
-  const DetailsTextFieldWidget({
+  DetailsTextFieldWidget({
     super.key,
     required this.size,
     required this.fieldName,
@@ -28,9 +28,11 @@ class DetailsTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      textController.text = textString ?? "";
-    });
+    !enableTextField
+        ? WidgetsBinding.instance.addPostFrameCallback((_) {
+            textController.text = textString ?? "";
+          })
+        : null;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
