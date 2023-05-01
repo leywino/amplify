@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class DetailsTextFieldWidget extends StatelessWidget {
   const DetailsTextFieldWidget({
     super.key,
@@ -12,7 +11,8 @@ class DetailsTextFieldWidget extends StatelessWidget {
     this.enableTextField = true,
     this.height,
     this.maxLines = 1,
-    this.textString, required this.textController,
+    this.textString,
+    required this.textController,
   });
 
   final Size size;
@@ -28,7 +28,6 @@ class DetailsTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       textController.text = textString ?? "";
     });
