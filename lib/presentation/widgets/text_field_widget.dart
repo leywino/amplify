@@ -7,14 +7,19 @@ class TextFieldWidget extends StatelessWidget {
       required this.fieldName,
       this.hideField = false,
       this.numPad = false,
-      this.colorValue = Colors.white, required this.textController});
+      this.colorValue = Colors.white,
+      required this.textController,
+      this.validator,
+      this.enabled = true});
 
   final Size size;
   final String fieldName;
   final bool hideField;
   final bool numPad;
+  final bool enabled;
   final Color colorValue;
   final TextEditingController textController;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +46,11 @@ class TextFieldWidget extends StatelessWidget {
                   fontSize: 18.0,
                 ),
               ),
-              TextField(
+              TextFormField(
                 // maxLength: 50,
                 // maxLines: 5,
-                controller: textController,
+                controller: textController, validator: validator,
+                enabled: enabled,
                 obscureText: hideField,
                 keyboardType: numPad ? TextInputType.phone : null,
                 decoration: const InputDecoration(

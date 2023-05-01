@@ -1,6 +1,7 @@
 import 'package:amplify/presentation/home_screen/widgets/add_new_product.dart';
 import 'package:amplify/presentation/home_screen/widgets/orders_tile.dart';
 import 'package:amplify/presentation/home_screen/widgets/products_tile.dart';
+import 'package:amplify/presentation/home_screen/widgets/view_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/colors.dart';
@@ -25,12 +26,19 @@ class ScreenHome extends StatelessWidget {
               actions: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.grey,
-                    child: SvgPicture.asset(
-                      "assets/person.svg",
-                      height: 20,
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewProfileScreen(),
+                        )),
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.grey,
+                      child: SvgPicture.asset(
+                        "assets/person.svg",
+                        height: 20,
+                      ),
                     ),
                   ),
                 ),
@@ -78,9 +86,7 @@ class ScreenHome extends StatelessWidget {
             ),
             body: TabBarView(
               children: <Widget>[
-                SingleChildScrollView(
-                  child: ProductsTiles(),
-                ),
+                ProductsTiles(),
                 SingleChildScrollView(
                   child: OrdersTiles(),
                 ),
