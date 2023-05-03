@@ -4,55 +4,55 @@ import 'package:amplify/firebase/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Future<void> addProduct(Products productClass, BuildContext context) {
-  CollectionReference products =
-      FirebaseFirestore.instance.collection('products');
-
-  return products.add({
-    'productName': productClass.productName,
-    'brand': productClass.brand,
-    'category': productClass.category,
-    'description': productClass.description,
-    'long description': productClass.longDescription,
-    'price': productClass.price,
-    'quantity': productClass.quantity,
-    'imageString': productClass.imageString,
-    'id': products.doc().id,
-  }).then((value) {
-    showSnackbar(context, "Product was added");
+Future<void> addProduct(Products productClass, BuildContext context) async {
+  final products = FirebaseFirestore.instance.collection('products');
+  final reference = products.doc();
+  try {
+    await reference.set({
+      'productName': productClass.productName,
+      'brand': productClass.brand,
+      'category': productClass.category,
+      'description': productClass.description,
+      'long description': productClass.longDescription,
+      'price': productClass.price,
+      'quantity': productClass.quantity,
+      'assetImageString': productClass.assetImageString,
+      'networkImageString': productClass.networkImageString,
+      'id': reference.id,
+    });
     log("Product Added");
-  }).catchError((error) {
+    showSnackbar(context, "Product was added");
+  } catch (error) {
     showSnackbar(context, "Failed to add product: $error");
     log("Failed to add product: $error");
-  });
+  }
 }
 
 Future<void> updateProduct(
-    Products productClass, String id, BuildContext context) {
-  CollectionReference products =
-      FirebaseFirestore.instance.collection('products');
-
-  return products.doc(id).update({
-    'productName': productClass.productName,
-    'brand': productClass.brand,
-    'category': productClass.category,
-    'description': productClass.description,
-    'long description': productClass.longDescription,
-    'price': productClass.price,
-    'quantity': productClass.quantity,
-    'imageString': productClass.imageString,
-    'id': id,
-  }).then((value) {
+    Products productClass, String id, BuildContext context) async {
+  final products = FirebaseFirestore.instance.collection('products');
+  final productRef = products.doc(id);
+  try {
+    await productRef.update({
+      'productName': productClass.productName,
+      'brand': productClass.brand,
+      'category': productClass.category,
+      'description': productClass.description,
+      'long description': productClass.longDescription,
+      'price': productClass.price,
+      'quantity': productClass.quantity,
+      'assetImageString': productClass.assetImageString,
+      'networkImageString': productClass.networkImageString,
+    });
     log("Product Updated");
     showSnackbar(context, "Product was updated");
-  }).catchError((error) {
+  } catch (error) {
     showSnackbar(context, "Failed to update product: $error");
     log("Failed to update product: $error");
-  });
+  }
 }
 
-Future<void> deleteProduct(
-    String id, BuildContext context) {
+Future<void> deleteProduct(String id, BuildContext context) {
   CollectionReference products =
       FirebaseFirestore.instance.collection('products');
 

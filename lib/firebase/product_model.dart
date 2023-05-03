@@ -6,18 +6,19 @@ class Products {
   final int price;
   final String description;
   final String longDescription;
-  final String imageString;
+  final String assetImageString;
+  final String? networkImageString;
   final String? id;
 
-  Products({
-    required this.brand,
-    required this.category,
-    required this.quantity,
-    required this.price,
-    required this.description,
-    required this.longDescription,
-    required this.imageString,
-    required this.productName,
-    this.id,
-  });
+  Products(
+      {required this.brand,
+      required this.category,
+      required this.quantity,
+      required this.price,
+      required this.description,
+      required this.longDescription,
+      required this.assetImageString,
+      required this.productName,
+      this.id,
+      this.networkImageString});
 }

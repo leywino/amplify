@@ -1,4 +1,5 @@
 import 'package:amplify/firebase/functions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -46,18 +47,22 @@ class ProductsTiles extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: const EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: NetworkImage(data['imageString']),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                    data['networkassetImageString'] != null
+                        ? CachedNetworkImage(
+                            imageUrl: data['assetImageString'],
+                          )
+                        : Container(
+                            width: 50,
+                            height: 50,
+                            margin: const EdgeInsets.only(right: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: AssetImage(data['assetImageString']),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                     Expanded(
                       child: Text(
                         data['productName'],
