@@ -52,7 +52,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   Center(
                     child: SizedBox(
                         width: size.width * 0.7,
-                        child: Image.network(data["imageString"])),
+                        child: data['networkImageString'] != null
+                            ? Image.network(data["networkImageString"])
+                            : Image.asset(data["assetImageString"])),
                   ),
                   DetailsTextFieldWidget(
                     size: size,
@@ -135,10 +137,11 @@ class ProductDetailsScreen extends StatelessWidget {
                               price: int.parse(priceController.text),
                               description: descriptionController.text,
                               longDescription: longDescriptionController.text,
-                              imageString: data["imageString"],
+                              assetImageString: data["assetImageString"],
                               productName: nameController.text),
-                          data['id'],context
-                        );
+                          data['id'],
+                          context);
+                  print(data['id']);
                 },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(

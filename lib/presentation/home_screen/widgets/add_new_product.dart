@@ -64,8 +64,8 @@ class AddNewProductScreen extends StatelessWidget {
                       height: size.width * 0.7,
                       child: ValueListenableBuilder(
                         valueListenable: imagePathNotifer,
-                        builder: (context, imageString, child) =>
-                            imageString == ""
+                        builder: (context, assetImageString, child) =>
+                            assetImageString == ""
                                 ? Container(
                                     height: size.height * 0.3,
                                     decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class AddNewProductScreen extends StatelessWidget {
                                     ),
                                   )
                                 : Image.file(
-                                    File(imageString),
+                                    File(assetImageString),
                                   ),
                       ),
                     ),
@@ -162,16 +162,16 @@ class AddNewProductScreen extends StatelessWidget {
                   return TextButton(
                     onPressed: () {
                       addProduct(
-                        Products(
-                            brand: brandController.text,
-                            category: categoryController.text,
-                            quantity: int.parse(quantityController.text),
-                            price: int.parse(priceController.text),
-                            description: descriptionController.text,
-                            longDescription: longDescriptionController.text,
-                            imageString: imagePath,
-                            productName: nameController.text),context
-                      );
+                          Products(
+                              brand: brandController.text,
+                              category: categoryController.text,
+                              quantity: int.parse(quantityController.text),
+                              price: int.parse(priceController.text),
+                              description: descriptionController.text,
+                              longDescription: longDescriptionController.text,
+                              assetImageString: imagePath,
+                              productName: nameController.text),
+                          context);
                     },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
