@@ -137,7 +137,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               longDescription: longDescriptionController.text,
                               imageString: data["imageString"],
                               productName: nameController.text),
-                          data['id'],
+                          data['id'],context
                         );
                 },
                 style: ButtonStyle(

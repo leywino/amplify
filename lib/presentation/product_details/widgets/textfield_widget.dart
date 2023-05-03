@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DetailsTextFieldWidget extends StatelessWidget {
-  DetailsTextFieldWidget({
+  const DetailsTextFieldWidget({
     super.key,
     required this.size,
     required this.fieldName,

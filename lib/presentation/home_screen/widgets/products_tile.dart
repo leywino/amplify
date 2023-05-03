@@ -1,3 +1,4 @@
+import 'package:amplify/firebase/functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -15,11 +16,11 @@ class ProductsTiles extends StatelessWidget {
       stream: _productsStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          return const Text('Something went wrong');
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return const Text("Loading");
         }
 
         return ListView(
@@ -66,11 +67,42 @@ class ProductsTiles extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      data['quantity'].toString(),
-                      style: const TextStyle(
-                        fontSize: 16,
+                    IconButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Delete confirmation'),
+                              content: const Text(
+                                  'Are you sure you want to delete this item?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                  child: const Text('Delete'),
+                                ),
+                              ],
+                            );
+                          },
+                        ).then((value) {
+                          if (value != null && value) {
+                            deleteProduct(data['id'], context);
+                          }
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
                       ),
+                      tooltip: 'Delete',
                     ),
                   ],
                 ),
