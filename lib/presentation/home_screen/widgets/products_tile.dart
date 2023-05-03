@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+
 import '../../product_details/product_details.dart';
 
 class ProductsTiles extends StatelessWidget {
@@ -47,9 +48,15 @@ class ProductsTiles extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    data['networkassetImageString'] != null
-                        ? CachedNetworkImage(
-                            imageUrl: data['assetImageString'],
+                    data['networkImageString'] != null
+                        ? Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: CachedNetworkImage(
+                              imageUrl: data['networkImageString'],
+                            ),
                           )
                         : Container(
                             width: 50,
@@ -58,7 +65,7 @@ class ProductsTiles extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
-                                image: AssetImage(data['assetImageString']),
+                                image: AssetImage(data['fileImageString']),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -119,3 +126,5 @@ class ProductsTiles extends StatelessWidget {
     );
   }
 }
+
+

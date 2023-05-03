@@ -54,7 +54,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         width: size.width * 0.7,
                         child: data['networkImageString'] != null
                             ? Image.network(data["networkImageString"])
-                            : Image.asset(data["assetImageString"])),
+                            : Image.asset(data["fileImageString"])),
                   ),
                   DetailsTextFieldWidget(
                     size: size,
@@ -137,7 +137,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               price: int.parse(priceController.text),
                               description: descriptionController.text,
                               longDescription: longDescriptionController.text,
-                              assetImageString: data["assetImageString"],
+                              networkImageString: data["fileImageString"],
                               productName: nameController.text),
                           data['id'],
                           context);
