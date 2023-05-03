@@ -170,7 +170,7 @@ class AddNewProductScreen extends StatelessWidget {
                             description: descriptionController.text,
                             longDescription: longDescriptionController.text,
                             imageString: imagePath,
-                            productName: nameController.text),
+                            productName: nameController.text),context
                       );
                     },
                     style: ButtonStyle(

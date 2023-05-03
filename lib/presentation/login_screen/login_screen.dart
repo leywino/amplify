@@ -167,6 +167,7 @@ class ScreenLogin extends StatelessWidget {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailController.text.trim(),
             password: passwordController.text.trim());
+        // ignore: use_build_context_synchronously
         _showEmailSentSnackbar(context, "Successfully Signed In");
       } on FirebaseAuthException catch (e) {
         log(e.toString());

@@ -83,9 +83,9 @@ class ViewProfileScreen extends StatelessWidget {
                   EdgeInsets.symmetric(
                       horizontal: size.width * 0.1, vertical: 20)),
             ),
-            child: Text(
+            child: const Text(
               'Log Out',
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
               ),
