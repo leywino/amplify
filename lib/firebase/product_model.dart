@@ -6,7 +6,6 @@ class Products {
   final int price;
   final String description;
   final String longDescription;
-  final String assetImageString;
   final String? networkImageString;
   final String? id;
 
@@ -17,7 +16,6 @@ class Products {
       required this.price,
       required this.description,
       required this.longDescription,
-      required this.assetImageString,
       required this.productName,
       this.id,
       this.networkImageString});

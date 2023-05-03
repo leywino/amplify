@@ -16,7 +16,6 @@ Future<void> addProduct(Products productClass, BuildContext context) async {
       'long description': productClass.longDescription,
       'price': productClass.price,
       'quantity': productClass.quantity,
-      'assetImageString': productClass.assetImageString,
       'networkImageString': productClass.networkImageString,
       'id': reference.id,
     });
@@ -41,7 +40,6 @@ Future<void> updateProduct(
       'long description': productClass.longDescription,
       'price': productClass.price,
       'quantity': productClass.quantity,
-      'assetImageString': productClass.assetImageString,
       'networkImageString': productClass.networkImageString,
     });
     log("Product Updated");

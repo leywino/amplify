@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:amplify/core/colors.dart';
 import 'package:amplify/firebase/functions.dart';
 import 'package:amplify/firebase/product_model.dart';
@@ -56,7 +56,8 @@ class AddNewProductScreen extends StatelessWidget {
                       if (pickedFile == null) {
                         return;
                       } else {
-                        imagePathNotifer.value = pickedFile.path;
+                        File file = File(pickedFile.path);
+                        imagePathNotifer.value = await uploadImage(file);
                       }
                     },
                     child: SizedBox(
@@ -64,8 +65,8 @@ class AddNewProductScreen extends StatelessWidget {
                       height: size.width * 0.7,
                       child: ValueListenableBuilder(
                         valueListenable: imagePathNotifer,
-                        builder: (context, assetImageString, child) =>
-                            assetImageString == ""
+                        builder: (context, fileImageString, child) =>
+                            fileImageString == ""
                                 ? Container(
                                     height: size.height * 0.3,
                                     decoration: BoxDecoration(
@@ -85,8 +86,8 @@ class AddNewProductScreen extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : Image.file(
-                                    File(assetImageString),
+                                : Image.network(
+                                    fileImageString,
                                   ),
                       ),
                     ),
@@ -169,7 +170,7 @@ class AddNewProductScreen extends StatelessWidget {
                               price: int.parse(priceController.text),
                               description: descriptionController.text,
                               longDescription: longDescriptionController.text,
-                              assetImageString: imagePath,
+                              networkImageString: imagePath,
                               productName: nameController.text),
                           context);
                     },
@@ -200,4 +201,31 @@ class AddNewProductScreen extends StatelessWidget {
       ],
     );
   }
+}
+
+Future<String> uploadImage(File file) async {
+  final firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+
+  // Create a reference to the location where you want to upload the file
+  firebase_storage.Reference ref =
+      storage.ref().child('images/${DateTime.now().toString()}');
+
+  // Upload the file to the specified path
+  firebase_storage.UploadTask task = ref.putFile(file);
+
+  // Listen for the upload progress
+  task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
+    print(
+        'Upload progress: ${snapshot.bytesTransferred}/${snapshot.totalBytes}');
+  });
+
+  // Wait for the upload to complete
+  await task;
+
+  // Get the download URL
+  String downloadURL = await ref.getDownloadURL();
+  print('File uploaded successfully: $downloadURL');
+
+  return downloadURL;
 }
