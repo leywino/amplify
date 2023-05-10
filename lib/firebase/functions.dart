@@ -8,6 +8,7 @@ Future<void> addProduct(Products productClass, BuildContext context) async {
   final products = FirebaseFirestore.instance.collection('products');
   final reference = products.doc();
   try {
+    showSnackbar(context, "Product was added");
     await reference.set({
       'productName': productClass.productName,
       'brand': productClass.brand,
@@ -15,12 +16,12 @@ Future<void> addProduct(Products productClass, BuildContext context) async {
       'description': productClass.description,
       'long description': productClass.longDescription,
       'price': productClass.price,
+      'actualPrice': productClass.actualPrice,
       'quantity': productClass.quantity,
       'networkImageString': productClass.networkImageString,
       'id': reference.id,
     });
     log("Product Added");
-    showSnackbar(context, "Product was added");
   } catch (error) {
     showSnackbar(context, "Failed to add product: $error");
     log("Failed to add product: $error");
@@ -32,6 +33,7 @@ Future<void> updateProduct(
   final products = FirebaseFirestore.instance.collection('products');
   final productRef = products.doc(id);
   try {
+    showSnackbar(context, "Product was updated");
     await productRef.update({
       'productName': productClass.productName,
       'brand': productClass.brand,
@@ -39,11 +41,11 @@ Future<void> updateProduct(
       'description': productClass.description,
       'long description': productClass.longDescription,
       'price': productClass.price,
+      'actualPrice': productClass.actualPrice,
       'quantity': productClass.quantity,
       'networkImageString': productClass.networkImageString,
     });
     log("Product Updated");
-    showSnackbar(context, "Product was updated");
   } catch (error) {
     showSnackbar(context, "Failed to update product: $error");
     log("Failed to update product: $error");
