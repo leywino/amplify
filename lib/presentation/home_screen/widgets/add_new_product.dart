@@ -17,6 +17,7 @@ class AddNewProductScreen extends StatelessWidget {
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
+  final TextEditingController actualPriceController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController longDescriptionController =
       TextEditingController();
@@ -57,7 +58,7 @@ class AddNewProductScreen extends StatelessWidget {
                         return;
                       } else {
                         File file = File(pickedFile.path);
-                        imagePathNotifer.value = await uploadImage(file);
+                        imagePathNotifer.value = await _uploadImage(file,nameController.text);
                       }
                     },
                     child: SizedBox(
@@ -130,6 +131,13 @@ class AddNewProductScreen extends StatelessWidget {
                 ),
                 DetailsTextFieldWidget(
                   size: size,
+                  fieldName: "ActualPrice",
+                  textController: actualPriceController,
+                  // enableTextField: !editOrUpdate,
+                  // textString: _dummyProductDetails[4],
+                ),
+                DetailsTextFieldWidget(
+                  size: size,
                   fieldName: "Description",
                   textController: descriptionController,
                   // enableTextField: !editOrUpdate,
@@ -164,14 +172,15 @@ class AddNewProductScreen extends StatelessWidget {
                     onPressed: () {
                       addProduct(
                           Products(
-                              brand: brandController.text,
-                              category: categoryController.text,
-                              quantity: int.parse(quantityController.text),
-                              price: int.parse(priceController.text),
-                              description: descriptionController.text,
-                              longDescription: longDescriptionController.text,
+                              brand: brandController.text.trim(),
+                              category: categoryController.text.trim(),
+                              quantity: int.parse(quantityController.text.trim()),
+                              price: int.parse(priceController.text.trim()),
+                              actualPrice: int.parse(actualPriceController.text.trim()),
+                              description: descriptionController.text.trim(),
+                              longDescription: longDescriptionController.text.trim(),
                               networkImageString: imagePath,
-                              productName: nameController.text),
+                              productName: nameController.text.trim()),
                           context);
                     },
                     style: ButtonStyle(
@@ -203,29 +212,16 @@ class AddNewProductScreen extends StatelessWidget {
   }
 }
 
-Future<String> uploadImage(File file) async {
+Future<String> _uploadImage(File file, String productName) async {
   final firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
-  // Create a reference to the location where you want to upload the file
   firebase_storage.Reference ref =
-      storage.ref().child('images/${DateTime.now().toString()}');
+      storage.ref().child('images/$productName');
 
-  // Upload the file to the specified path
   firebase_storage.UploadTask task = ref.putFile(file);
-
-  // Listen for the upload progress
-  task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
-    print(
-        'Upload progress: ${snapshot.bytesTransferred}/${snapshot.totalBytes}');
-  });
-
-  // Wait for the upload to complete
+  
   await task;
-
-  // Get the download URL
   String downloadURL = await ref.getDownloadURL();
-  print('File uploaded successfully: $downloadURL');
-
   return downloadURL;
 }

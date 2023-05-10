@@ -1,5 +1,4 @@
 import 'package:amplify/firebase/functions.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -54,8 +53,8 @@ class ProductsTiles extends StatelessWidget {
                             width: 50,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20)),
-                            child: CachedNetworkImage(
-                              imageUrl: data['networkImageString'],
+                            child: Image.network(
+                              data['networkImageString'],
                             ),
                           )
                         : Container(
