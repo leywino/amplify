@@ -101,7 +101,7 @@ class ScreenHome extends StatelessWidget {
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddNewProductScreen(),
+                    builder: (context) => const AddNewProductScreen(),
                   ),
                 ),
                 style: ButtonStyle(

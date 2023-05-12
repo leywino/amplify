@@ -8,19 +8,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddNewProductScreen extends StatelessWidget {
-  AddNewProductScreen({super.key});
+class AddNewProductScreen extends StatefulWidget {
+  const AddNewProductScreen({super.key});
 
-  final ValueNotifier<String> imagePathNotifer = ValueNotifier("");
+  @override
+  State<AddNewProductScreen> createState() => _AddNewProductScreenState();
+}
+
+class _AddNewProductScreenState extends State<AddNewProductScreen> {
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController brandController = TextEditingController();
+
   final TextEditingController categoryController = TextEditingController();
+
   final TextEditingController quantityController = TextEditingController();
+
   final TextEditingController priceController = TextEditingController();
+
   final TextEditingController actualPriceController = TextEditingController();
+
   final TextEditingController descriptionController = TextEditingController();
+
   final TextEditingController longDescriptionController =
       TextEditingController();
+
+  List<String> imageList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -58,39 +71,37 @@ class AddNewProductScreen extends StatelessWidget {
                         return;
                       } else {
                         File file = File(pickedFile.path);
-                        imagePathNotifer.value = await _uploadImage(file,nameController.text);
+                        imageList =
+                            await _uploadImage(file, nameController.text);
+                        setState(() {});
                       }
                     },
                     child: SizedBox(
                       width: size.width * 0.7,
                       height: size.width * 0.7,
-                      child: ValueListenableBuilder(
-                        valueListenable: imagePathNotifer,
-                        builder: (context, fileImageString, child) =>
-                            fileImageString == ""
-                                ? Container(
-                                    height: size.height * 0.3,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 2.0,
-                                      ),
-                                      color: Colors.white,
-                                    ),
-                                    child: const Center(
-                                      child: Text(
-                                        'Pick Image',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : Image.network(
-                                    fileImageString,
+                      child: imageList.isEmpty
+                          ? Container(
+                              height: size.height * 0.3,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 2.0,
+                                ),
+                                color: Colors.white,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Pick Image',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
                                   ),
-                      ),
+                                ),
+                              ),
+                            )
+                          : Image.network(
+                              imageList[0],
+                            ),
                     ),
                   ),
                 ),
@@ -164,64 +175,63 @@ class AddNewProductScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 15),
           child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ValueListenableBuilder(
-                valueListenable: imagePathNotifer,
-                builder: (context, imagePath, child) {
-                  return TextButton(
-                    onPressed: () {
-                      addProduct(
-                          Products(
-                              brand: brandController.text.trim(),
-                              category: categoryController.text.trim(),
-                              quantity: int.parse(quantityController.text.trim()),
-                              price: int.parse(priceController.text.trim()),
-                              actualPrice: int.parse(actualPriceController.text.trim()),
-                              description: descriptionController.text.trim(),
-                              longDescription: longDescriptionController.text.trim(),
-                              networkImageString: imagePath,
-                              productName: nameController.text.trim()),
-                          context);
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          side: const BorderSide(color: Colors.black),
-                        ),
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          EdgeInsets.symmetric(
-                              horizontal: size.width * 0.32, vertical: 20)),
-                    ),
-                    child: const Text(
-                      'Save',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  );
-                },
-              )),
+            alignment: Alignment.bottomCenter,
+            child: TextButton(
+              onPressed: () {
+                addProduct(
+                    Products(
+                        brand: brandController.text.trim(),
+                        category: categoryController.text.trim(),
+                        quantity: int.parse(quantityController.text.trim()),
+                        price: int.parse(priceController.text.trim()),
+                        actualPrice:
+                            int.parse(actualPriceController.text.trim()),
+                        description: descriptionController.text.trim(),
+                        longDescription: longDescriptionController.text.trim(),
+                        networkImageList: imageList,
+                        productName: nameController.text.trim()),
+                    context);
+              },
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    side: const BorderSide(color: Colors.black),
+                  ),
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                    EdgeInsets.symmetric(
+                        horizontal: size.width * 0.32, vertical: 20)),
+              ),
+              child: const Text(
+                'Save',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
   }
-}
 
-Future<String> _uploadImage(File file, String productName) async {
-  final firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
+  Future<List<String>> _uploadImage(File file, String productName) async {
+    final firebase_storage.FirebaseStorage storage =
+        firebase_storage.FirebaseStorage.instance;
 
-  firebase_storage.Reference ref =
-      storage.ref().child('images/$productName');
+    int index = imageList.length;
 
-  firebase_storage.UploadTask task = ref.putFile(file);
-  
-  await task;
-  String downloadURL = await ref.getDownloadURL();
-  return downloadURL;
+    firebase_storage.Reference ref =
+        storage.ref().child('images/$productName (${index + 1})');
+
+    firebase_storage.UploadTask task = ref.putFile(file);
+
+    await task;
+    String downloadURL = await ref.getDownloadURL();
+    imageList.add(downloadURL);
+    return imageList;
+  }
 }

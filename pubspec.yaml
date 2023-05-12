@@ -18,6 +18,8 @@ dependencies:
   email_validator: ^2.1.17
   cached_network_image: ^3.2.3
   firebase_storage: ^11.1.1
+  google_sign_in: ^6.1.0
+  flutter_carousel_widget: ^2.0.2
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,7 @@
 import 'package:amplify/firebase/functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../product_details/product_details.dart';
 
@@ -47,27 +47,21 @@ class ProductsTiles extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    data['networkImageString'] != null
+                    data['networkImageList'] != null
                         ? Container(
                             height: 50,
                             width: 50,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20)),
                             child: Image.network(
-                              data['networkImageString'],
+                              data['networkImageList'][0],
                             ),
                           )
                         : Container(
                             width: 50,
                             height: 50,
                             margin: const EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(
-                                image: AssetImage(data['fileImageString']),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            child: SvgPicture.asset('assets/no_image.svg'),
                           ),
                     Expanded(
                       child: Text(
@@ -125,5 +119,3 @@ class ProductsTiles extends StatelessWidget {
     );
   }
 }
-
-

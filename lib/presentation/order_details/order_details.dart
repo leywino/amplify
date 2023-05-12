@@ -158,10 +158,10 @@ class OrderDetails extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(height: size.height * 0.03),
-                                  Row(
+                                  const Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    children: const [
+                                    children: [
                                       Text(
                                         '₹11,999',
                                         style: TextStyle(
@@ -261,8 +261,8 @@ class OrderDetails extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
