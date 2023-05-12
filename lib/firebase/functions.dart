@@ -18,7 +18,7 @@ Future<void> addProduct(Products productClass, BuildContext context) async {
       'price': productClass.price,
       'actualPrice': productClass.actualPrice,
       'quantity': productClass.quantity,
-      'networkImageString': productClass.networkImageString,
+      'networkImageList': productClass.networkImageList,
       'id': reference.id,
     });
     log("Product Added");
@@ -43,11 +43,26 @@ Future<void> updateProduct(
       'price': productClass.price,
       'actualPrice': productClass.actualPrice,
       'quantity': productClass.quantity,
-      'networkImageString': productClass.networkImageString,
+      'networkImageList': productClass.networkImageList,
     });
     log("Product Updated");
   } catch (error) {
     showSnackbar(context, "Failed to update product: $error");
+    log("Failed to update product: $error");
+  }
+}
+
+Future<void> addMoreImage(List imageList, String id) async {
+  final products = FirebaseFirestore.instance.collection('products');
+  final productRef = products.doc(id);
+  try {
+    // showSnackbar(context, "Product was updated");
+    await productRef.update({
+      'networkImageList': imageList,
+    });
+    log("Product Updated");
+  } catch (error) {
+    // showSnackbar(context, "Failed to update product: $error");
     log("Failed to update product: $error");
   }
 }

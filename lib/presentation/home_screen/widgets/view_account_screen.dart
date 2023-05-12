@@ -3,6 +3,7 @@ import 'package:amplify/presentation/product_details/widgets/textfield_widget.da
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/colors.dart';
 
@@ -64,6 +65,7 @@ class ViewProfileScreen extends StatelessWidget {
           child: TextButton(
             onPressed: () {
               FirebaseAuth.instance.signOut();
+              GoogleSignIn().signOut();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

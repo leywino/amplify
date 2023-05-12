@@ -4,6 +4,8 @@ import 'package:amplify/presentation/home_screen/home_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../widgets/text_field_widget.dart';
 
@@ -65,9 +67,9 @@ class ScreenLogin extends StatelessWidget {
                         // Second child - Sign In Text
                         Padding(
                           padding: EdgeInsets.only(top: size.height * 0.1),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Text(
                                 'Login',
                                 style: TextStyle(
@@ -101,28 +103,75 @@ class ScreenLogin extends StatelessWidget {
                           height: size.height * 0.1,
                         ),
                         // Fourth child - Container with blue background and rounded corners
-                        TextButton(
-                          onPressed: () => signIn(context),
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                side: const BorderSide(color: Colors.black),
+                        SizedBox(
+                          width: size.width * 0.8,
+                          child: TextButton(
+                            onPressed: () => signIn(context),
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  side: const BorderSide(color: Colors.black),
+                                ),
                               ),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.black),
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                  const EdgeInsets.symmetric(vertical: 20)),
                             ),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.black),
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                                EdgeInsets.symmetric(
-                                    horizontal: size.width * 0.32,
-                                    vertical: 20)),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.8,
+                          child: TextButton(
+                            onPressed: () => loginWithGoogle(),
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                  const EdgeInsets.symmetric(vertical: 20)),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white),
+                            ),
+                            child: Row(
+                              // mainAxisSize: MainAxisSize.min,
+
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Login with Google',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: SvgPicture.asset(
+                                        'assets/google_logo.svg'),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -188,4 +237,16 @@ void _showEmailSentSnackbar(BuildContext context, String message) {
   );
 
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+loginWithGoogle() async {
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final googleUser = await googleSignIn.signIn();
+  if (googleUser == null) return;
+  GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  AuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+  await FirebaseAuth.instance.signInWithCredential(credential);
 }

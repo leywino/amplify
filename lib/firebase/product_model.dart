@@ -7,7 +7,7 @@ class Products {
   final int actualPrice;
   final String description;
   final String longDescription;
-  final String? networkImageString;
+  final List? networkImageList;
   final String? id;
 
   Products(
@@ -20,5 +20,5 @@ class Products {
       required this.longDescription,
       required this.productName,
       this.id,
-      this.networkImageString});
+      this.networkImageList});
 }
