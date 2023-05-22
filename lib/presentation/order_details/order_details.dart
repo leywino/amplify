@@ -1,9 +1,13 @@
 import 'package:amplify/core/colors.dart';
+import 'package:amplify/presentation/order_details/widgets/order_status_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class OrderDetails extends StatelessWidget {
-  const OrderDetails({super.key});
+  const OrderDetails({super.key, required this.orderList});
+
+  final dynamic orderList;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,7 @@ class OrderDetails extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: size.width * 0.13),
                     child: const Text(
-                      "User Name :",
+                      "User Name: ",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -59,9 +63,9 @@ class OrderDetails extends StatelessWidget {
                               // color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Text(
-                              'John Doe',
-                              style: TextStyle(fontSize: 18),
+                            child: Text(
+                              orderList['addressMap']['name'],
+                              style: const TextStyle(fontSize: 18),
                               maxLines: 7,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -97,9 +101,9 @@ class OrderDetails extends StatelessWidget {
                               // color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Text(
-                              'Flat No. 302, Malabar Residency,Thiruvananthapuram, Kerala, Pincode: 695014, India',
-                              style: TextStyle(fontSize: 18),
+                            child: Text(
+                              '${orderList['addressMap']['permanent address']}\n${orderList['addressMap']['city']}, ${orderList['addressMap']['state']}\nPincode: ${orderList['addressMap']['pin code']}',
+                              style: const TextStyle(fontSize: 18),
                               maxLines: 7,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -122,7 +126,7 @@ class OrderDetails extends StatelessWidget {
               ),
               Column(
                 children: List.generate(
-                  1,
+                  orderList['productList'].length,
                   (index) => Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 8,
@@ -138,7 +142,8 @@ class OrderDetails extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Image.network(
-                              'https://cdn.shopify.com/s/files/1/0153/8863/products/Headphone-Zone-HiFiMAN-HE400se-1160-1160-7.jpg?v=1614245064&width=800',
+                              orderList['productList'][index]
+                                  ['networkImageList'][0],
                               width: 70,
                               height: 70,
                             ),
@@ -150,28 +155,28 @@ class OrderDetails extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    'HiFiMAN - HE400se',
-                                    style: TextStyle(
+                                  Text(
+                                    '${orderList['productList'][index]['brand']} - ${orderList['productList'][index]['productName']}',
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.0,
                                     ),
                                   ),
                                   SizedBox(height: size.height * 0.03),
-                                  const Row(
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        '₹11,999',
-                                        style: TextStyle(
+                                        '₹${NumberFormat.decimalPattern().format(orderList['cartList'][index]['totalPrice'])}',
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 22.0,
                                         ),
                                       ),
                                       Text(
-                                        'x1',
-                                        style: TextStyle(
+                                        'x${orderList['cartList'][index]['quantity']}',
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.0,
                                         ),
@@ -213,9 +218,9 @@ class OrderDetails extends StatelessWidget {
                               // color: Colors.grey[200],
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Text(
-                              'Prepaid - Debit Card',
-                              style: TextStyle(fontSize: 18),
+                            child: Text(
+                              orderList['paymentMethod'],
+                              style: const TextStyle(fontSize: 18),
                               maxLines: 7,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -261,22 +266,9 @@ class OrderDetails extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Delivered',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      // Icon(Icons.arrow_drop_down),
-                    ],
-                  ),
+                  child: OrderStatusWidget(
+                      id: orderList['id'],
+                      orderStatusIndex: orderList['orderStatusIndex']),
                 ),
               ],
             ),

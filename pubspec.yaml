@@ -20,6 +20,7 @@ dependencies:
   firebase_storage: ^11.1.1
   google_sign_in: ^6.1.0
   flutter_carousel_widget: ^2.0.2
+  intl:
 
 dev_dependencies:
   flutter_test:

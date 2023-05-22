@@ -23,7 +23,7 @@ class ScreenHome extends StatelessWidget {
               elevation: 0,
               automaticallyImplyLeading: false,
               foregroundColor: Colors.black,
-              actions: [
+            actions: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(

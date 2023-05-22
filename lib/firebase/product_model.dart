@@ -10,15 +10,16 @@ class Products {
   final List? networkImageList;
   final String? id;
 
-  Products(
-      {required this.brand,
-      required this.category,
-      required this.quantity,
-      required this.price,
-      required this.actualPrice,
-      required this.description,
-      required this.longDescription,
-      required this.productName,
-      this.id,
-      this.networkImageList});
+  Products({
+    required this.brand,
+    required this.category,
+    required this.quantity,
+    required this.price,
+    required this.actualPrice,
+    required this.description,
+    required this.longDescription,
+    required this.productName,
+    this.id,
+    this.networkImageList,
+  });
 }
