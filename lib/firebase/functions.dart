@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:amplify/firebase/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 Future<void> addProduct(Products productClass, BuildContext context) async {
@@ -92,4 +93,21 @@ void showSnackbar(BuildContext context, String message) {
   );
 
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+Future<void> updateOrderStatus(
+    String id, BuildContext context, int orderStatusIndex) async {
+  final email = FirebaseAuth.instance.currentUser!.email;
+  final products = FirebaseFirestore.instance.collection('orders');
+  final productRef = products.doc(id);
+  try {
+    // showSnackbar(context, "Product was updated");
+    await productRef.update({
+      'orderStatusIndex': orderStatusIndex,
+    });
+    log("Product Updated");
+  } catch (error) {
+    showSnackbar(context, "Failed to update product: $error");
+    log("Failed to update product: $error");
+  }
 }

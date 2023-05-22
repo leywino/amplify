@@ -45,7 +45,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
     imageList = widget.data['networkImageList'];
-    log(imageList.toString());
     super.initState();
   }
 
@@ -88,8 +87,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 child: SizedBox(
                                     width: size.width * 0.7,
                                     child: Image.network(
-                                        widget.data["networkImageList"][0])),
-                              )
+                                        widget.data["networkImageList"][0])))
                             : Stack(
                                 children: [
                                   FlutterCarousel(
@@ -121,7 +119,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  EditImageScreen(imageList: imageList,id: widget.data['id'],productName: widget.data['productName'],),
+                                                  EditImageScreen(
+                                                imageList: imageList,
+                                                id: widget.data['id'],
+                                                productName:
+                                                    widget.data['productName'],
+                                              ),
                                             ));
                                       },
                                       icon: SvgPicture.asset('assets/edit.svg'),
