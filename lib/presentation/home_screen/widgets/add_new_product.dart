@@ -15,12 +15,12 @@ class AddNewProductScreen extends StatefulWidget {
   State<AddNewProductScreen> createState() => _AddNewProductScreenState();
 }
 
+final ValueNotifier<String> categoryStringNotifier = ValueNotifier("");
+
 class _AddNewProductScreenState extends State<AddNewProductScreen> {
   final TextEditingController nameController = TextEditingController();
 
   final TextEditingController brandController = TextEditingController();
-
-  final TextEditingController categoryController = TextEditingController();
 
   final TextEditingController quantityController = TextEditingController();
 
@@ -37,6 +37,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    categoryStringNotifier.value = _list.first;
     final size = MediaQuery.of(context).size;
     return Stack(
       children: [
@@ -119,12 +120,59 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                   // enableTextField: !editOrUpdate,
                   // textString: _dummyProductDetails[1],
                 ),
-                DetailsTextFieldWidget(
-                  size: size,
-                  fieldName: "Category",
-                  textController: categoryController,
-                  // enableTextField: !editOrUpdate,
-                  // textString: _dummyProductDetails[2],
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: size.width * 0.15),
+                  child: Column(
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Category",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: size.width * 0.30),
+                        child: ValueListenableBuilder(
+                          valueListenable: categoryStringNotifier,
+                          builder: (context, dropdownValue, child) =>
+                              DropdownButton<String>(
+                            value: dropdownValue,
+                            icon: SvgPicture.asset(
+                              "assets/dropdown.svg",
+                            ),
+                            iconSize: 24,
+                            elevation: 0,
+                            borderRadius: BorderRadius.zero,
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 16),
+                            underline: Container(),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              categoryStringNotifier.value = value!;
+                              int orderStatusIndex = _list
+                                  .indexWhere((element) => element == value);
+                            },
+                            items: _list
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 DetailsTextFieldWidget(
                   size: size,
@@ -175,44 +223,48 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
         Padding(
           padding: const EdgeInsets.only(bottom: 15),
           child: Align(
-            alignment: Alignment.bottomCenter,
-            child: TextButton(
-              onPressed: () {
-                addProduct(
-                    Products(
-                        brand: brandController.text.trim(),
-                        category: categoryController.text.trim(),
-                        quantity: int.parse(quantityController.text.trim()),
-                        price: int.parse(priceController.text.trim()),
-                        actualPrice:
-                            int.parse(actualPriceController.text.trim()),
-                        description: descriptionController.text.trim(),
-                        longDescription: longDescriptionController.text.trim(),
-                        networkImageList: imageList,
-                        productName: nameController.text.trim()),
-                    context);
-              },
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    side: const BorderSide(color: Colors.black),
+              alignment: Alignment.bottomCenter,
+              child: ValueListenableBuilder(
+                valueListenable: categoryStringNotifier,
+                builder: (context, categoryString, child) => TextButton(
+                  onPressed: () {
+                    addProduct(
+                        Products(
+                            brand: brandController.text.trim(),
+                            category: categoryString,
+                            quantity: int.parse(quantityController.text.trim()),
+                            price: int.parse(priceController.text.trim()),
+                            actualPrice:
+                                int.parse(actualPriceController.text.trim()),
+                            description: descriptionController.text.trim(),
+                            longDescription:
+                                longDescriptionController.text.trim(),
+                            networkImageList: imageList,
+                            productName: nameController.text.trim()),
+                        context);
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        side: const BorderSide(color: Colors.black),
+                      ),
+                    ),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.black),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.symmetric(
+                            horizontal: size.width * 0.32, vertical: 20)),
+                  ),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.symmetric(
-                        horizontal: size.width * 0.32, vertical: 20)),
-              ),
-              child: const Text(
-                'Save',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ),
-          ),
+              )),
         ),
       ],
     );
@@ -235,3 +287,11 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
     return imageList;
   }
 }
+
+const List<String> _list = <String>[
+  'inEars',
+  'Headphones',
+  'Earbuds',
+  'Hi-Res Audio Player',
+  'DAC & Amp'
+];
