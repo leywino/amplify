@@ -41,10 +41,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       TextEditingController();
 
   List imageList = [];
+  final ValueNotifier<String> categoryStringNotifier = ValueNotifier("");
 
   @override
   void initState() {
     imageList = widget.data['networkImageList'];
+    categoryStringNotifier.value = widget.data['category'];
     super.initState();
   }
 
@@ -167,12 +169,59 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         textString: widget.data["brand"],
                         textController: brandController,
                       ),
-                      DetailsTextFieldWidget(
-                        size: size,
-                        fieldName: "Category",
-                        enableTextField: !editOrUpdate,
-                        textString: widget.data["category"],
-                        textController: categoryController,
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: size.width * 0.15),
+                        child: Column(
+                          children: [
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Category",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(right: size.width * 0.30),
+                              child: ValueListenableBuilder(
+                                valueListenable: categoryStringNotifier,
+                                builder: (context, dropdownValue, child) =>
+                                    DropdownButton<String>(
+                                  value: dropdownValue,
+                                  icon: SvgPicture.asset(
+                                    "assets/dropdown.svg",
+                                  ),
+                                  iconSize: 24,
+                                  elevation: 0,
+                                  borderRadius: BorderRadius.zero,
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                  underline: Container(),
+                                  onChanged: (String? value) {
+                                    // This is called when the user selects an item.
+                                    categoryStringNotifier.value = value!;
+                                  },
+                                  items: _list.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       DetailsTextFieldWidget(
                         size: size,
@@ -228,49 +277,55 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: ValueListenableBuilder(
-              valueListenable: editNotifier,
-              builder: (context, editOrUpdate, child) => TextButton(
-                onPressed: () {
-                  editNotifier.value = !editNotifier.value;
-                  editOrUpdate
-                      ? null
-                      : updateProduct(
-                          Products(
-                              brand: brandController.text,
-                              category: categoryController.text,
-                              quantity: int.parse(quantityController.text),
-                              price: int.parse(priceController.text),
-                              actualPrice:
-                                  int.parse(actualPriceController.text.trim()),
-                              description: descriptionController.text,
-                              longDescription: longDescriptionController.text,
-                              networkImageList: imageList,
-                              productName: nameController.text),
-                          widget.data['id'],
-                          context);
-                },
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      side: const BorderSide(color: Colors.black),
-                    ),
-                  ),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      EdgeInsets.symmetric(
-                          horizontal: size.width * 0.32, vertical: 20)),
-                ),
-                child: Text(
-                  editOrUpdate ? '   Edit   ' : 'Update',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ),
+                valueListenable: editNotifier,
+                builder: (context, editOrUpdate, child) =>
+                    ValueListenableBuilder(
+                      valueListenable: categoryStringNotifier,
+                      builder: (context, categoryString, child) => TextButton(
+                        onPressed: () {
+                          editNotifier.value = !editNotifier.value;
+                          editOrUpdate
+                              ? null
+                              : updateProduct(
+                                  Products(
+                                      brand: brandController.text,
+                                      category: categoryString,
+                                      quantity:
+                                          int.parse(quantityController.text),
+                                      price: int.parse(priceController.text),
+                                      actualPrice: int.parse(
+                                          actualPriceController.text.trim()),
+                                      description: descriptionController.text,
+                                      longDescription:
+                                          longDescriptionController.text,
+                                      networkImageList: imageList,
+                                      productName: nameController.text),
+                                  widget.data['id'],
+                                  context);
+                        },
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              side: const BorderSide(color: Colors.black),
+                            ),
+                          ),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                              EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.32, vertical: 20)),
+                        ),
+                        child: Text(
+                          editOrUpdate ? '   Edit   ' : 'Update',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    )),
           ),
         ),
       ],
@@ -358,3 +413,11 @@ Future<List> _uploadMoreImage(
 
   return imageList;
 }
+
+const List<String> _list = <String>[
+  'inEars',
+  'Headphones',
+  'Earbuds',
+  'Hi-Res Audio Player',
+  'DAC & Amp'
+];
